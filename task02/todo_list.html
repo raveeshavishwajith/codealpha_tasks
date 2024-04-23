@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+      }
+      #todoapp {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+      input[type="text"] {
+        width: calc(100% - 60px);
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 8px 16px;
+        margin-left: 5px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="todoapp">
+      <h2>To-Do List</h2>
+      <input type="text" id="taskInput" placeholder="Enter task..." />
+      <button onclick="addTask()">Add</button>
+      <button onclick="sortTasks()">Sort</button>
+      <button onclick="clearTasks()">Clear All</button>
+      <ul id="taskList"></ul>
+    </div>
+
+    <script>
+      function addTask() {
+        var taskInput = document.getElementById("taskInput");
+        var taskList = document.getElementById("taskList");
+
+        if (taskInput.value.trim() !== "") {
+          var li = document.createElement("li");
+          li.innerHTML = `<span>${taskInput.value.trim()}</span><button onclick="completeTask(this)">Complete</button><button onclick="deleteTask(this)">Delete</button>`;
+          taskList.appendChild(li);
+          taskInput.value = "";
+        }
+      }
+
+      function completeTask(button) {
+        var listItem = button.parentNode;
+        listItem.classList.toggle("completed");
+        button.textContent = listItem.classList.contains("completed")
+          ? "Undo"
+          : "Complete";
+      }
+
+      function deleteTask(button) {
+        var listItem = button.parentNode;
+        listItem.remove();
+      }
+
+      function sortTasks() {
+        var taskList = document.getElementById("taskList");
+        var tasks = Array.from(taskList.children);
+        tasks.sort((a, b) => a.textContent.localeCompare(b.textContent));
+        tasks.forEach((task) => taskList.appendChild(task));
+      }
+
+      function clearTasks() {
+        var taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+      }
+    </script>
+  </body>
+</html>
